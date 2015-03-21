@@ -3,6 +3,10 @@
   <head>
     <title>RangeFinder API</title>
     <meta charset='utf-8'>
+
+    <link rel="canonical" href="http://www.w3.org/TR/rangefinder-api/">
+    <script src="https://notes.webplatform.org/annotator.js" async defer></script>
+
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
@@ -50,6 +54,10 @@
     <section id='sotd'>
       <p>
         The API described in this document is still experimental.
+      </p>
+
+      <p class="note">
+        Feedback on this specification can be made via annotations. All annotations are archived on the <a rel="reply-to" href="mailto:public-annotation@w3.org">public-annotation@w3.org</a> mailing list (<a href="http://lists.w3.org/Archives/Public/public-annotation/">archives</a>), and on the searchable <a href="https://notes.webplatform.org/stream">WebPlatform Notes stream</a>; see more details on <a href="https://notes.webplatform.org/">Notes.WebPlatform.org</a>. <b>Note:</b> To create annotations, you must have a <a href="https://accounts.webplatform.org/">WebPlatform.org account</a>; do not use your W3C credentials.
       </p>
     </section>
     
@@ -476,55 +484,55 @@
         <dl title='dictionary RangeFinderArgs' class='idl'>
           <dt>
             DOMString text
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString markup
-          </dt>
+          </dt> <dd></dd>
           <dt>
             int editDistance
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString prefix
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString suffix
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString element
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString fragment
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString querySelector
-          </dt>
+          </dt> <dd></dd>
           <dt>
             DOMString xpathSelector
-          </dt>
+          </dt> <dd></dd>
           <dt>
             Range startRange
-          </dt>
+          </dt> <dd></dd>
           <dt>
             int characterStart
-          </dt>
+          </dt> <dd></dd>
           <dt>
             int characterLength
-          </dt>
+          </dt> <dd></dd>
           <dt>
             boolean caseFolding
-          </dt>
+          </dt> <dd></dd>
           <dt>
             boolean unicodeFolding
-          </dt>
+          </dt> <dd></dd>
           <dt>
             boolean wholeWord
-          </dt>
+          </dt> <dd></dd>
           <dt>
             boolean wrap
           </dt>
           <dt>
             CustomSelectorCallback customSelector
-          </dt>
+          </dt> <dd></dd>
         </dl>
 
         <dl title='dictionary RangeFinderResult' class='idl'>
@@ -683,9 +691,9 @@ var result = rf.search(); // result is 1st instance of string starting at query 
 
         <h4 id="ex1-m5">Method 5: Element scope</h4>
         <p class="note">
-          The main difference here between the <a>querySelector</a> attribute (used in <a href="#ex1-m4">Method 4</a>)
-          and the <a>element</a> attribute is that <a>querySelector</a> sets the starting point for the search, 
-          while <a>element</a> limits the scope. In other words, running <a>search()</a> again on the previous example
+          The main difference here between the <code>querySelector</code> attribute (used in <a href="#ex1-m4">Method 4</a>)
+          and the <code>element</code> attribute is that <code>querySelector</code> sets the starting point for the search, 
+          while <code>element</code> limits the scope. In other words, running <code>search()</code> again on the previous example
           will find the next instance in the next paragraph, while in this example, it will only find the single instance in the target paragraph.
         </p>
         <pre class="example"><code>
