@@ -5,7 +5,9 @@
     <meta charset='utf-8'>
 
     <link rel="canonical" href="http://www.w3.org/TR/rangefinder-api/">
+    <!--
     <script src="https://notes.webplatform.org/annotator.js" async defer></script>
+    -->
 
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
@@ -106,6 +108,12 @@
       <p class="note">
         This specification defines what is returned, but not the specific algorithms used to find that result, or the speed or optimizations taken. Such optimizations are implementation-specific.
       </p>
+
+      <p class="note">
+        For character counts in ranges, what exactly would be counted as a character? Unicode code points? Graphemes?
+      </p>
+
+
     </section>
 
 
@@ -294,7 +302,7 @@
           Currently, this API uses attributes to set selectors. I considered using chaining setter methods, which would allow for multiple parameters for each selector, and specific confidence ratings for each selector. However, that approach wouldn't let you initialize the object with a property object, nor allow easy object introspection. Feedback welcome.
         </p>
 
-        <dl title='[Constructor(optional RangeFinderArgs args)] interface RangeFinder : EventTarget' class='idl' data-merge="RangeFinderState RangeFinderResult RangeFinderArgs">
+        <dl title='[Constructor(optional RangeFinderArgs args)] interface RangeFinder : EventTarget' class='idl' data-merge="RangeFinderState RangeFinderResult RangeFinderArgs UnicodeEquivalenceType">
           <dt>
             attribute DOMString text
           </dt>
@@ -407,11 +415,11 @@
           </dd>
 
           <dt>
-            attribute boolean unicodeFolding
+            attribute UnicodeEquivalenceType unicodeFolding
           </dt>
           <dd>
             <p> 
-              A boolean representing whether a search MUST match canonically equivalent characters. The default value MUST be false.
+              A enumerated value representing whether a search MUST match exact characters, or use a particular Unicode character equivalence. The default value MUST be <code>none</code>.
             </p>
             <p> 
               Canonical Equivalence is described in [[!UTS10]]. If the value of this attribute is true, the User Agent MUST follow the algorthim defined in section <a href="http://unicode.org/reports/tr10/#Searching">8 Searching and Matching</a>, with collations and contractions formed per section <a href="http://unicode.org/reports/tr10/#Collation_Folding">8.1 Collation Folding</a>, and secondary strength asymmetric search per section <a href="http://unicode.org/reports/tr10/#Asymmetric_Search">8.2 Asymmetric Search</a>.
@@ -504,6 +512,29 @@
           </dd>
         </dl>
 
+
+        <dl title="enum UnicodeEquivalenceType" class="idl">
+          <dt>
+            none
+          </dt>
+          <dd>
+            The search MUST NOT use any Unicode equivalence of characters.
+          </dd>
+          <dt>
+            canonical
+          </dt>
+          <dd>
+            The search MUST use canonical (NFC/NFD) Unicode equivalence of characters.
+          </dd>
+          <dt>
+            compatibility
+          </dt>
+          <dd>
+            The search MUST use compatibility (NFKC/NFKD) Unicode equivalence of characters.
+          </dd>
+        </dl>
+
+
         <dl title='dictionary RangeFinderArgs' class='idl'>
           <dt>
             DOMString text
@@ -533,7 +564,7 @@
             boolean caseFolding
           </dt> <dd></dd>
           <dt>
-            boolean unicodeFolding
+            UnicodeEquivalenceType unicodeFolding
           </dt> <dd></dd>
           <dt>
             boolean wholeWord
@@ -567,7 +598,7 @@
           </dd>
         </dl>
 
-<!-- 
+ <!-- 
         <section>
           <h3 id="lifetime-RangeFinder" class="informative">
             Note goes here
@@ -944,9 +975,9 @@
         <h4 id="ex1-m1">Method 1: Iterative search</h4>
         <pre class="example"><code>
 var rf = new RangeFinder({ text: "Rage, rage" });
-var result = rf.search(); // result is 1st instance of string
-    result = rf.search(); // result is 2nd instance of string
-    result = rf.search(); // result is 3rd instance of string, the target instance
+var result = rf.search()  // result is 1st instance of string
+    .then( rf.search() )  // result is 2nd instance of string
+    .then( rf.search() ); // result is 3rd instance of string, the target instance
         </code></pre>
 
         <h4 id="ex1-m2">Method 2: Context search with prefix</h4>
